@@ -19,4 +19,9 @@ class Centro {
         this.nome = nome
     }
 
+    void addDepartamento(String dept)
+    {
+        this.departamentos.add(dept)
+    }
+
 }

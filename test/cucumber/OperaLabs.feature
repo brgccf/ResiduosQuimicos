@@ -5,7 +5,7 @@ Feature: Operar com laboratorios disponíveis no sistema.
 
   Scenario: Solicitação de acesso a laboratórios por usuário do tipo Facilitador
     Given "Pedro" não possui associação a nenhum laboratório cadastrado
-    And a lista de solicitações de associações ao laboratório  por usuários do tipo Facilitador está vazia
+    And a lista de solicitações de associações ao laboratório "A" por usuários do tipo Facilitador está vazia
     And os laboratórios "A" e "B" estão disponíveis para associação
     When Eu solicito a associação de "Pedro" ao Laboratório "A"
     Then a lista de solicitações de associações é atualizada com uma solicitação de "Pedro" para acessar "A"
@@ -15,5 +15,4 @@ Feature: Operar com laboratorios disponíveis no sistema.
     And Existe uma solicitação de acesso ao laboratório "A" feita pelo usuário do tipo Facilitador "Pedro"
     When "Fátima" realiza a operação de concessão de acesso ao laboratório "A" para "Pedro"
     Then "Pedro" passa a ficar associado ao laboratório "A"
-    And "Pedro" recebe um email de confirmação de acesso ao laboratório "A"
     And "Pedro" não pode mais solicitar acesso a laboratórios

@@ -5,12 +5,12 @@ package residuosquimicos
  * e referenciar residuos cadastrados nos labs
  */
 class Laboratorio {
-
+    def solicitacoes = []
     String nomeDepartamento
     String nomeLaboratorio
     String responsavel
-    static belongsTo = [centro:Centro]
-    static hasMany = [residuos:Residuo]
+    static belongsTo = [centro: Centro]
+    static hasMany = [residuos: Residuo]
 
     static constraints = {
         nomeDepartamento blank: false, nullable: false
@@ -19,15 +19,18 @@ class Laboratorio {
     }
     /**
      *
-     * @param nome
+     * @param nomeLaboratorio
      * nome do lab
      * @param responsavel
      * facilitador responsavel pelo lab
      */
 
-    Laboratorio(String nome, String responsavel)
-    {
+    Laboratorio(String nome) {
         this.nomeLaboratorio = nome
+    }
+
+    void setResponsavel(String responsavel)
+    {
         this.responsavel = responsavel
     }
 
