@@ -16,20 +16,19 @@ this.metaClass.mixin(cucumber.runtime.groovy.EN)
 Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) { String fac ->
     //assert !(fac.estaAssociado())
 }
-And(~/^a lista de solicitações de associações ao laboratório "([^"])" por usuários do tipo Facilitador está vazia$/) { ->
 
+And(~/^os laboratórios "([^"]*)" e "([^"]*)" estão disponíveis para associação$/) { Laboratorio labA, Laboratorio labB ->
+    assert labA.solicitado
+    assert labB.solicitado
 }
-And(~/^os laboratórios "([^"]*)" e "([^"]*)" estão disponíveis para associação$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
+    def controlador = new LaboratorioController()
+    Laboratorio A = Laboratorio.find(labA)
+    controlador.solicitar(fac, A)
 }
-When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
-Then(~/^a lista de solicitações de associações é atualizada com uma solicitação de "([^"]*)" para acessar "([^"]*)"$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
+    Laboratorio A = Laboratorio.find(lab)
+    A.setSolicitado(true)
 }
 
 

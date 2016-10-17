@@ -5,12 +5,19 @@ package residuosquimicos
  * e referenciar residuos cadastrados nos labs
  */
 class Laboratorio {
-    def solicitacoes = []
+    boolean solicitado
+    /**
+     * booleano para informar se o laboratorio ja foi solicitado por algum facilitador. em caso positivo
+     * nao pode haver mais solicitaçoes, pois somente um facilitador pode estar associado a um laboratorio
+     */
     String nomeDepartamento
+    /**
+     * nome do departamento associado ao laboratorio
+     */
     String nomeLaboratorio
-    String responsavel
-    static belongsTo = [centro: Centro]
-    static hasMany = [residuos: Residuo]
+    String responsavel //facilitador associado ao laboratorio
+    static belongsTo = [centro: Centro] //Centro associado ao laboratorio
+    static hasMany = [residuos: Residuo] //lista de residuos cadastrados no laboratorio
 
     static constraints = {
         nomeDepartamento blank: false, nullable: false
@@ -18,7 +25,6 @@ class Laboratorio {
         responsavel blank: false, nullable: false
     }
     /**
-     *
      * @param nomeLaboratorio
      * nome do lab
      * @param responsavel
@@ -29,6 +35,21 @@ class Laboratorio {
         this.nomeLaboratorio = nome
     }
 
+    /**
+     * método setSolicitado
+     * @param set
+     * seta o atributo booleano Solicitado em true ou false
+     * determina se há ou nao alguma solicitaçao para o laboratorio
+     */
+    void setSolicitado(boolean set)
+    {
+        this.solicitado = set
+    }
+    /**
+     * método setResponsavel
+     * @param responsavel
+     * seta o facilitador responsavel pelo cadastramento de residuos neste laboratorio
+     */
     void setResponsavel(String responsavel)
     {
         this.responsavel = responsavel

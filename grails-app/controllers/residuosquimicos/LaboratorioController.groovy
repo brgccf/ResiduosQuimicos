@@ -10,9 +10,25 @@ class LaboratorioController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    /**
+     * método solicitar --> realiza uma solicitacao de acesso a laboratorio
+     * @param fac
+     * facilitador que solicitou o acesso
+     * @param lab
+     * laboratorio para o qual o acesso foi solicitado
+     */
     def solicitar(String fac, Laboratorio lab)
     {}
 
+    /**
+     * método setFacilitador --> aprova uma solicitacao de acesso a laboratorio feita por um facilitador
+     * @param adm
+     * nome do administrador que aprovou
+     * @param lab
+     * laboratorio associado ao facilitador
+     * @param fac
+     * facilitador que teve solicitacao aprovada
+     */
     def setFacilitador(String adm, Laboratorio lab, String fac)
     {}
 
