@@ -15,14 +15,13 @@ class Laboratorio {
      * nome do departamento associado ao laboratorio
      */
     String nomeLaboratorio
-    String responsavel //facilitador associado ao laboratorio
+    Usuario responsavel //facilitador associado ao laboratorio
     static belongsTo = [centro: Centro] //Centro associado ao laboratorio
     static hasMany = [residuos: Residuo] //lista de residuos cadastrados no laboratorio
 
     static constraints = {
         nomeDepartamento blank: false, nullable: false
         nomeLaboratorio blank: false, nullable: false
-        responsavel blank: false, nullable: false
     }
     /**
      * @param nomeLaboratorio
@@ -50,7 +49,7 @@ class Laboratorio {
      * @param responsavel
      * seta o facilitador responsavel pelo cadastramento de residuos neste laboratorio
      */
-    void setResponsavel(String responsavel)
+    void setResponsavel(Usuario responsavel)
     {
         this.responsavel = responsavel
     }

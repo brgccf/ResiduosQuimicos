@@ -28,6 +28,12 @@ class Centro {
         this.nome = nome
     }
 
+    /**
+     * método addDepartamento:
+     * adiciona departamento à lista de um dado centro
+     * @param dept
+     * nome do departamento a ser adicionado à lista
+     */
     void addDepartamento(String dept)
     {
         this.departamentos.add(dept)

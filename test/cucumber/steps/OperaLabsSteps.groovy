@@ -14,6 +14,7 @@ this.metaClass.mixin(cucumber.runtime.groovy.Hooks)
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
 Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) { String fac ->
+
     //assert !(fac.estaAssociado())
 }
 
@@ -23,11 +24,11 @@ And(~/^os laboratórios "([^"]*)" e "([^"]*)" estão disponíveis para associaç
 }
 When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
     def controlador = new LaboratorioController()
-    Laboratorio A = Laboratorio.find(labA)
+    Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
     controlador.solicitar(fac, A)
 }
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
-    Laboratorio A = Laboratorio.find(lab)
+    Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
     A.setSolicitado(true)
 }
 
@@ -38,19 +39,19 @@ Given(~/^"([^"]*)" é um usuário do tipo administrador do sistema$/) { String u
 And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" feita pelo usuário do tipo Facilitador "([^"]*)"$/)
         { String lab, String fac ->
             def controlador = new LaboratorioController()
-            Laboratorio labSolicitado = Laboratorio.find(lab)
+            Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lab)
             controlador.solicitar(fac, labSolicitado)
 }
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
         { String adm, String lab, String fac ->
             def controlador = new LaboratorioController()
-            Laboratorio labConcedido = Laboratorio.find(lab)
+            Laboratorio labConcedido = Laboratorio.findByNomeLaboratorio(lab)
             controlador.setFacilitador(adm, labConcedido, fac)
 
 }
 Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         { String fac, String lab ->
-            Laboratorio labAssociado = Laboratorio.find(lab)
+            Laboratorio labAssociado = Laboratorio.findByNomeLaboratorio(lab)
             labAssociado.setResponsavel(fac)
 }
 

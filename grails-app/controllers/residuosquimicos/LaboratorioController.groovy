@@ -17,7 +17,7 @@ class LaboratorioController {
      * @param lab
      * laboratorio para o qual o acesso foi solicitado
      */
-    def solicitar(String fac, Laboratorio lab)
+    def solicitar(Usuario fac, Laboratorio lab)
     {}
 
     /**
@@ -29,7 +29,7 @@ class LaboratorioController {
      * @param fac
      * facilitador que teve solicitacao aprovada
      */
-    def setFacilitador(String adm, Laboratorio lab, String fac)
+    def setFacilitador(Usuario adm, Laboratorio lab, Usuario fac)
     {}
 
 
