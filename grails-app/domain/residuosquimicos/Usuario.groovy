@@ -6,8 +6,10 @@ package residuosquimicos
 class Usuario {
     String nome
     String senha
-    char tipo
-
+    static final int FACILITADOR = 4
+    static final int ADMINISTRADOR = 5
+    int tipo
+    boolean associado
     String ramal //ramal para contato com o usuario
     String email //email de acesso ao sistema
 
@@ -23,14 +25,22 @@ class Usuario {
      * senha de acesso ao sistema
      * @param tipo
      * tipo do usuario
-     * tipo 'A' = Administrador
-     * tipo 'F' = Facilitador
      */
-    Usuario(String nome, String senha, char tipo)
+    Usuario(String nome, String email, String senha)
     {
         this.nome = nome
+        this.email = email
         this.senha = senha
-        this.tipo = tipo
+        this.associado = false
     }
 
+    void setAdmin()
+    {
+        this.tipo = ADMINISTRADOR
+    }
+
+    void setFacilitador()
+    {
+        this.tipo = FACILITADOR
+    }
 }

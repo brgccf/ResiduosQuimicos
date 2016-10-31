@@ -20,15 +20,6 @@ class Centro {
         nome nullable: false, blank: false
     }
     /**
-     * @param nome
-     * nome do centro
-     */
-    Centro(String nome)
-    {
-        this.nome = nome
-    }
-
-    /**
      * método addDepartamento:
      * adiciona departamento à lista de um dado centro
      * @param dept

@@ -1,6 +1,8 @@
 import cucumber.api.PendingException
+import cucumber.api.groovy.FA
 import residuosquimicos.Laboratorio
 import residuosquimicos.LaboratorioController
+import residuosquimicos.Usuario
 
 import static cucumber.api.groovy.EN.And
 import static cucumber.api.groovy.EN.Given
@@ -10,22 +12,27 @@ import static cucumber.api.groovy.EN.Then
  * Created by brgccf on 10/13/2016.
  */
 
+static final int FACILITADOR = 4
+static final int ADMINISTRADOR = 5
 this.metaClass.mixin(cucumber.runtime.groovy.Hooks)
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
 Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) { String fac ->
-
-    //assert !(fac.estaAssociado())
+    Usuario facilitador = Usuario.findByNome(fac)
+    assert facilitador.getTipo() == FACILITADOR
+    assert !(facilitador.getAssociado())
 }
 
 And(~/^os laboratórios "([^"]*)" e "([^"]*)" estão disponíveis para associação$/) { Laboratorio labA, Laboratorio labB ->
-    assert labA.solicitado
-    assert labB.solicitado
+    assert labA.getSolicitado()
+    assert labB.getSolicitado()
 }
 When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
     def controlador = new LaboratorioController()
+    Usuario facilitador = Usuario.findByNome(fac)
+    assert facilitador.getTipo() == FACILITADOR
     Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
-    controlador.solicitar(fac, A)
+    controlador.solicitarAssociacao(facilitador, A)
 }
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
     Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
@@ -34,19 +41,26 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
 
 
 Given(~/^"([^"]*)" é um usuário do tipo administrador do sistema$/) { String user ->
-    user = "adm"
+    Usuario adm = Usuario.findByNome(user)
+    assert adm.getTipo() == ADMINISTRADOR
 }
 And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" feita pelo usuário do tipo Facilitador "([^"]*)"$/)
         { String lab, String fac ->
             def controlador = new LaboratorioController()
+            Usuario facilitador = Usuario.findByNome(fac)
+            assert facilitador.getTipo() == FACILITADOR
             Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lab)
-            controlador.solicitar(fac, labSolicitado)
+            controlador.solicitarAssociacao(facilitador, labSolicitado)
 }
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
         { String adm, String lab, String fac ->
             def controlador = new LaboratorioController()
             Laboratorio labConcedido = Laboratorio.findByNomeLaboratorio(lab)
-            controlador.setFacilitador(adm, labConcedido, fac)
+            Usuario admin = Usuario.findByNome(adm)
+            assert admin.getTipo() == ADMINISTRADOR
+            Usuario facilitador = Usuario.findByNome(fac)
+            assert facilitador.getTipo() == FACILITADOR
+            controlador.setFacilitador(admin, labConcedido, facilitador)
 
 }
 Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)

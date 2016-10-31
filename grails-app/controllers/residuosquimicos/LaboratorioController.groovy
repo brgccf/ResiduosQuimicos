@@ -17,8 +17,12 @@ class LaboratorioController {
      * @param lab
      * laboratorio para o qual o acesso foi solicitado
      */
-    def solicitar(Usuario fac, Laboratorio lab)
-    {}
+    def solicitarAssociacao(Usuario fac, Laboratorio lab)
+    {
+        assert lab.getSolicitado() //verifica se o lab ja está associado
+        lab.setSolicitante(fac) //seta o responsavel pela solicitacao
+        lab.setSolicitado(true) //seta que agora o lab esta solicitado
+    }
 
     /**
      * método setFacilitador --> aprova uma solicitacao de acesso a laboratorio feita por um facilitador
@@ -46,7 +50,7 @@ class LaboratorioController {
         respond new Laboratorio(params)
     }
 
-    /*
+
     @Transactional
     def save(Laboratorio laboratorioInstance) {
         if (laboratorioInstance == null) {
@@ -125,5 +129,5 @@ class LaboratorioController {
             '*'{ render status: NOT_FOUND }
         }
     }
-    */
+
 }

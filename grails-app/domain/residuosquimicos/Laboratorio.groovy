@@ -15,6 +15,7 @@ class Laboratorio {
      * nome do departamento associado ao laboratorio
      */
     String nomeLaboratorio
+    Usuario solicitante //facilitador que solicitou acesso ao lab
     Usuario responsavel //facilitador associado ao laboratorio
     static belongsTo = [centro: Centro] //Centro associado ao laboratorio
     static hasMany = [residuos: Residuo] //lista de residuos cadastrados no laboratorio
@@ -32,26 +33,6 @@ class Laboratorio {
 
     Laboratorio(String nome) {
         this.nomeLaboratorio = nome
-    }
-
-    /**
-     * método setSolicitado
-     * @param set
-     * seta o atributo booleano Solicitado em true ou false
-     * determina se há ou nao alguma solicitaçao para o laboratorio
-     */
-    void setSolicitado(boolean set)
-    {
-        this.solicitado = set
-    }
-    /**
-     * método setResponsavel
-     * @param responsavel
-     * seta o facilitador responsavel pelo cadastramento de residuos neste laboratorio
-     */
-    void setResponsavel(Usuario responsavel)
-    {
-        this.responsavel = responsavel
     }
 
 }
