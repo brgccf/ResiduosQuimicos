@@ -17,7 +17,6 @@ class Laboratorio {
     String nomeLaboratorio
     Usuario solicitante //facilitador que solicitou acesso ao lab
     Usuario responsavel //facilitador associado ao laboratorio
-    static belongsTo = [centro: Centro] //Centro associado ao laboratorio
     static hasMany = [residuos: Residuo] //lista de residuos cadastrados no laboratorio
 
     static constraints = {

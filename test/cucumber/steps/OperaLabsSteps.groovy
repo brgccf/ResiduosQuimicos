@@ -50,7 +50,8 @@ And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" feita pelo u
             Usuario facilitador = Usuario.findByNome(fac)
             assert facilitador.getTipo() == FACILITADOR
             Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lab)
-            controlador.solicitarAssociacao(facilitador, labSolicitado)
+            assert labSolicitado.getSolicitante().getNome() == (facilitador.getNome())
+
 }
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
         { String adm, String lab, String fac ->
@@ -66,9 +67,38 @@ When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "
 Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         { String fac, String lab ->
             Laboratorio labAssociado = Laboratorio.findByNomeLaboratorio(lab)
-            labAssociado.setResponsavel(fac)
+            Usuario facilitador = Usuario.findByNome(fac)
+            assert labAssociado.getResponsavel().getNome() == facilitador.getNome()
 }
 
 And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac ->
-    //fac.setAssociado(true)
+    Usuario facilitador = Usuario.findByNome(fac)
+    assert facilitador.getAssociado()
+    facilitador.setAssociado(true)
+}
+
+
+Given(~/^"([^"]*)" é um usuário faciitador associado ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
+
+}
+And(~/^o laboratório "([^"]*)" está disponível para associação$/) { String arg1 ->
+
+}
+When(~/^eu tento solicitar associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
+
+}
+Then(~/^eu posso ver uma mensagem de erro indicando que "([^"]*)" já está associado laboratorio "([^"]*)"$/) { String arg1, String arg2 ->
+
+}
+
+
+Given(~/^"([^"]*)" é um usuário do tipo facilitador sem associações a laboratórios$/) { String arg1 ->
+
+}
+When(~/^eu tento solicito associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
+
+}
+Then(~/^eu posso ver uma mensagem de confirmação indicando a solicitação de "([^"]*)" para acessar o laboratório "([^"]*)"$/)
+        { String arg1, String arg2 ->
+
 }
