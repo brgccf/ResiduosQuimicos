@@ -17,13 +17,13 @@ import static cucumber.api.groovy.EN.Then
 this.metaClass.mixin(cucumber.runtime.groovy.Hooks)
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-Usuario facilit = new Usuario("Pedro", "pgrr@cin.ufpe.br", "pedroca", 4)
-Usuario admininst = new Usuario("Fatima", "fhg@ufpe.br", "fatima123", 5)
+//Usuario facilit = new Usuario("Pedro", "pgrr@cin.ufpe.br", "pedroca", 4)
+//Usuario admininst = new Usuario("Fatima", "fhg@ufpe.br", "fatima123", 5)
 
 
 Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) { String fac ->
     LaboratorioController controlador = new LaboratorioController()
-    criarUsuarioFacilitador(fac, "pgrr@cin.ufpe.br", "pedroca", 4, controlador)
+    criarUsuarioFacilitador(fac, "pgrr@cin.ufpe.br", "pedroca", controlador)
     Usuario facilitador = Usuario.findByNome(fac)
     assert facilitador.getTipo() == 4
     assert !(facilitador.getAssociado())
@@ -49,7 +49,7 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
 
 //testar parametros
 
-def criarUsuarioFacilitador(String nome, String email, String senha, int tipo, LaboratorioController controlador)
+def criarUsuarioFacilitador(String nome, String email, String senha, LaboratorioController controlador)
 {
 
 }
