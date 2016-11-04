@@ -16,7 +16,6 @@ class Usuario {
     static constraints = {
         nome nullable: false, blank: false
         senha nullable: false, blank: false
-        tipo nullable: false, blank: false
     }
     /**
      * @param nome
@@ -26,12 +25,13 @@ class Usuario {
      * @param tipo
      * tipo do usuario
      */
-    Usuario(String nome, String email, String senha)
+    Usuario(String nome, String email, String senha, int tipo)
     {
         this.nome = nome
         this.email = email
         this.senha = senha
         this.associado = false
+        this.tipo = tipo
     }
 
     void setAdmin()

@@ -19,9 +19,7 @@ class LaboratorioController {
      */
     def solicitarAssociacao(Usuario fac, Laboratorio lab)
     {
-        assert lab.getSolicitado() //verifica se o lab ja está associado
         lab.setSolicitante(fac) //seta o responsavel pela solicitacao
-        lab.setSolicitado(true) //seta que agora o lab esta solicitado
     }
 
     /**
