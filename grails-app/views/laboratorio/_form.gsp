@@ -1,6 +1,13 @@
 <%@ page import="residuosquimicos.Laboratorio" %>
 
+<div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'nomeCentro', 'error')} required">
+	<label for="nomeCentro">
+		<g:message code="laboratorio.nomeCentro.label" default="Nome Centro" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select name="nomeCentro" from="${residuosquimicos.CentroList?.values()}" keys="${residuosquimicos.CentroList.values()*.name()}" required="" value="${laboratorioInstance?.nomeCentro?.name()}" />
 
+</div>
 
 <div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'nomeDepartamento', 'error')} required">
 	<label for="nomeDepartamento">
@@ -16,8 +23,7 @@
 		<g:message code="laboratorio.nomeLaboratorio.label" default="Nome Laboratorio" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="nomeLaboratorio" required="" value="${laboratorioInstance?.nomeLaboratorio}"/>
-
+	<g:select name="nomeLaboratorio" from="${residuosquimicos.LaboratorioList?.values()}" keys="${residuosquimicos.LaboratorioList.values()*.name()}" required="" value="${laboratorioInstance?.nomeLaboratorio?.name()}" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'residuos', 'error')} ">
@@ -38,21 +44,17 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'responsavel', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'responsavel', 'error')}">
 	<label for="responsavel">
 		<g:message code="laboratorio.responsavel.label" default="Responsavel" />
-		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="responsavel" name="responsavel.id" from="${residuosquimicos.Usuario.list()}" optionKey="id" required="" value="${laboratorioInstance?.responsavel?.id}" class="many-to-one"/>
-
+	<g:select id="responsavel" name="responsavel.id" from="${residuosquimicos.Usuario.list()}" optionKey="id" value="${laboratorioInstance?.responsavel?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'solicitante', 'error')} required">
 	<label for="solicitante">
 		<g:message code="laboratorio.solicitante.label" default="Solicitante" />
-		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="solicitante" name="solicitante.id" from="${residuosquimicos.Usuario.list()}" optionKey="id" required="" value="${laboratorioInstance?.solicitante?.id}" class="many-to-one"/>
-
+	<g:select id="solicitante" name="solicitante.id" from="${residuosquimicos.Usuario.list()}" optionKey="id" value="${laboratorioInstance?.solicitante?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
 

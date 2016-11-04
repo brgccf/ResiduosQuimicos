@@ -22,6 +22,14 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list laboratorio">
+				<g:if test="${laboratorioInstance?.nomeCentro}">
+					<li class="fieldcontain">
+						<span id="nomeCentro-label" class="property-label"><g:message code="laboratorio.nomeCentro.label" default="Nome Centro" /></span>
+
+						<span class="property-value" aria-labelledby="nomeCentro-label"><g:fieldValue bean="${laboratorioInstance}" field="nomeCentro"/></span>
+
+					</li>
+				</g:if>
 			
 				<g:if test="${laboratorioInstance?.nomeDepartamento}">
 				<li class="fieldcontain">

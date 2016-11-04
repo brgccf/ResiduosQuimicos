@@ -23,7 +23,8 @@
 			<table>
 			<thead>
 					<tr>
-					
+						<g:sortableColumn property="nomeCentro" title="${message(code: 'laboratorio.nomeCentro.label', default: 'Nome Centro')}" />
+
 						<g:sortableColumn property="nomeDepartamento" title="${message(code: 'laboratorio.nomeDepartamento.label', default: 'Nome Departamento')}" />
 					
 						<g:sortableColumn property="nomeLaboratorio" title="${message(code: 'laboratorio.nomeLaboratorio.label', default: 'Nome Laboratorio')}" />
@@ -37,7 +38,9 @@
 				<tbody>
 				<g:each in="${laboratorioInstanceList}" status="i" var="laboratorioInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
+
+						<td><g:link action="show" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeCentro")}</g:link></td>
+
 						<td><g:link action="show" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeDepartamento")}</g:link></td>
 					
 						<td>${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</td>

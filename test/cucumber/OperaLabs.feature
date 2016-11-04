@@ -10,9 +10,9 @@ Feature: Operar com laboratorios disponíveis no sistema.
     Then o laboratório "A" não pode receber mais solicitações
 
   Scenario: Aprovação de acesso a laboratório para um usuário do tipo Facilitador
-    Given "Fátima" é um usuário do tipo administrador do sistema
+    Given "Fatima" é um usuário do tipo administrador do sistema
     And Existe uma solicitação de acesso ao laboratório "A" feita pelo usuário do tipo Facilitador "Pedro"
-    When "Fátima" realiza a operação de concessão de acesso ao laboratório "A" para "Pedro"
+    When "Fatima" realiza a operação de concessão de acesso ao laboratório "A" para "Pedro"
     Then "Pedro" passa a ficar associado ao laboratório "A"
     And "Pedro" não pode mais solicitar acesso a laboratórios
 

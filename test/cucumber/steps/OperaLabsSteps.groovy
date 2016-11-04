@@ -12,67 +12,76 @@ import static cucumber.api.groovy.EN.Then
  * Created by brgccf on 10/13/2016.
  */
 
-static final int FACILITADOR = 4
-static final int ADMINISTRADOR = 5
+//static final int FACILITADOR = 4
+//static final int ADMINISTRADOR = 5
 this.metaClass.mixin(cucumber.runtime.groovy.Hooks)
 this.metaClass.mixin(cucumber.runtime.groovy.EN)
 
-Usuario facilit = new Usuario("Pedro", "pgrr@cin.ufpe.br", "pedroca", FACILITADOR)
-Usuario admininst = new Usuario("Fatima", "fhg@ufpe.br", "fatima123", ADMINISTRADOR)
+Usuario facilit = new Usuario("Pedro", "pgrr@cin.ufpe.br", "pedroca", 4)
+Usuario admininst = new Usuario("Fatima", "fhg@ufpe.br", "fatima123", 5)
 
 
 Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) { String fac ->
+    LaboratorioController controlador = new LaboratorioController()
+    criarUsuarioFacilitador(fac, "pgrr@cin.ufpe.br", "pedroca", 4, controlador)
     Usuario facilitador = Usuario.findByNome(fac)
-    assert facilitador.getTipo() == FACILITADOR
+    assert facilitador.getTipo() == 4
     assert !(facilitador.getAssociado())
 }
 
 And(~/^os laboratórios "([^"]*)" e "([^"]*)" estão disponíveis para associação$/) { String labA, String labB ->
-    Laboratorio A = Laboratorio.findByLaboratorio(labA)
-    Laboratorio B = Laboratorio.findByLaboratorio(labB)
+    Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
+    Laboratorio B = Laboratorio.findByNomeLaboratorio(labB)
     assert A.estaSolicitado()
     assert B.estaSolicitado()
 }
 When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
     def controlador = new LaboratorioController()
     Usuario facilitador = Usuario.findByNome(fac)
-    assert facilitador.getTipo() == FACILITADOR
-    Laboratorio A = Laboratorio.findByLaboratorio(labA)
+    assert facilitador.getTipo() == 4
+    Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
     controlador.solicitarAssociacao(facilitador, A)
 }
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
-    Laboratorio A = Laboratorio.findByLaboratorio(lab)
+    Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
     assert !(A.estaSolicitado())
+}
+
+//testar parametros
+
+def criarUsuarioFacilitador(String nome, String email, String senha, int tipo, LaboratorioController controlador)
+{
+
 }
 
 
 Given(~/^"([^"]*)" é um usuário do tipo administrador do sistema$/) { String user ->
     Usuario adm = Usuario.findByNome(user)
-    assert adm.getTipo() == ADMINISTRADOR
+    assert adm.getTipo() == 5
 }
 And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" feita pelo usuário do tipo Facilitador "([^"]*)"$/)
         { String lab, String fac ->
-            def controlador = new LaboratorioController()
             Usuario facilitador = Usuario.findByNome(fac)
-            assert facilitador.getTipo() == FACILITADOR
-            Laboratorio labSolicitado = Laboratorio.findByLaboratorio(lab)
+            assert facilitador.getTipo() == 4
+            Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lab)
+            assert !(labSolicitado.estaSolicitado())
             assert labSolicitado.getSolicitante().getNome() == (facilitador.getNome())
 
 }
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
         { String adm, String lab, String fac ->
             def controlador = new LaboratorioController()
-            Laboratorio labConcedido = Laboratorio.findByLaboratorio(lab)
+            Laboratorio labConcedido = Laboratorio.findByNomeLaboratorio(lab)
             Usuario admin = Usuario.findByNome(adm)
-            assert admin.getTipo() == ADMINISTRADOR
+            assert admin.getTipo() == 5
             Usuario facilitador = Usuario.findByNome(fac)
-            assert facilitador.getTipo() == FACILITADOR
+            assert facilitador.getTipo() == 4
             controlador.setFacilitador(admin, labConcedido, facilitador)
 
 }
 Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         { String fac, String lab ->
-            Laboratorio labAssociado = Laboratorio.findByLaboratorio(lab)
+            Laboratorio labAssociado = Laboratorio.findByNomeLaboratorio(lab)
             Usuario facilitador = Usuario.findByNome(fac)
             assert labAssociado.getResponsavel().getNome() == facilitador.getNome()
 }
@@ -83,7 +92,7 @@ And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac
     facilitador.setAssociado(true)
 }
 
-/*
+
 Given(~/^"([^"]*)" é um usuário faciitador associado ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
 
 }
@@ -108,4 +117,3 @@ Then(~/^eu posso ver uma mensagem de confirmação indicando a solicitação de 
         { String arg1, String arg2 ->
 
 }
-*/

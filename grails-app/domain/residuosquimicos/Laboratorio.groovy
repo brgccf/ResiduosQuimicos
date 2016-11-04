@@ -8,15 +8,15 @@ class Laboratorio {
     /**
      * Nome do centro ao qual pertence
      */
-    CentroList centro
+    CentroList nomeCentro
     /**
      * Nome do departamento ao qual pertence
      */
-    DepartamentoList departamento
+    DepartamentoList nomeDepartamento
     /**
      * Nome do laboratorio ao qual pertence
      */
-    LaboratorioList laboratorio
+    LaboratorioList nomeLaboratorio
     /**
      * Usuario que solicitou acesso ao sistema
      */
@@ -29,17 +29,17 @@ class Laboratorio {
     static hasMany = [residuos: Residuo]
 
     static constraints = {
-        centro blank: false, nullable: false
-        departamento blank: false, nullable: false
-        laboratorio blank: false, nullable: false
-        solicitante nullable: true
-        responsavel nullable: true
+        nomeCentro blank: false, nullable: false
+        nomeDepartamento blank: false, nullable: false
+        nomeLaboratorio blank: false, nullable: false
+        solicitante blank: true, nullable: true
+        responsavel blank: true, nullable: true
     }
 
-    boolean estaSolicitado()
+
+    def boolean estaSolicitado()
     {
-        if(this.solicitante == null) return false
-        else return true
+        return this.solicitante
     }
 
 }
