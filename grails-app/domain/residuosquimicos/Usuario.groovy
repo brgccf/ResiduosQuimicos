@@ -21,4 +21,10 @@ class Usuario {
         this.associado = false
     }
 
+    Usuario(String nome)
+    {
+        this.nome = nome
+        this.associado = false
+    }
+
 }

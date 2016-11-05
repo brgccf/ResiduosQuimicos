@@ -52,7 +52,7 @@
 		<g:message code="usuario.tipo.label" default="Tipo" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="tipo" type="number" value="${usuarioInstance.tipo}" required=""/>
+	<g:select name="tipo" from="${residuosquimicos.UsuarioList?.values()}" keys="${residuosquimicos.UsuarioList.values()*.name()}" required="" value="${usuarioInstance?.tipo?.name()}" />
 
 </div>
 
