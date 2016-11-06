@@ -1,4 +1,5 @@
 import cucumber.api.PendingException
+import pages.CreateUserPage
 import residuosquimicos.Laboratorio
 import residuosquimicos.LaboratorioController
 import residuosquimicos.Usuario
@@ -47,12 +48,7 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
 }
 
 //testar parametros
-def createLaboratorioAndCheck(String nomeLab, String nomeDep, String nomeCentro){
-    to CreateLaboratorioPage
-    at CreateLaboratorioPage
-    page.createLab(nomeLab, nomeDep, nomeCentro)
-    at ShowLaboratorioPage
-}
+
 static def criarUsuarioFacilitador(String nome, UsuarioController controlador)
 {
     Usuario userFac = new Usuario([nome:nome, senha:"senhafac", tipo: UsuarioList.FAC, associado: false, ramal: "1234",
@@ -124,10 +120,33 @@ And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac
 }
 
 //GUI SCENARIOS
+//testar parametros
+def createLaboratorioAndCheck(String nomeLab, String nomeDep, String nomeCentro){
+    to CreateLaboratorioPage
+    at CreateLaboratorioPage
+    page.createLab(nomeLab, nomeDep, nomeCentro)
+    at ShowLaboratorioPage
+}
 
-Given(~/^"([^"]*)" é um usuário faciitador associado ao laboratório "([^"]*)"$/) { String fac, String labA ->
+Given(~/^eu criei o usuário Facilitador "([^"]*)"$/) { String nome ->
+    to CreateUserPage
+    at CreateUserPage
+    page.criarUsuario(nome, UsuarioList.FAC)
+}
+
+And(~/^eu criei os laboratório "([^"]*)" e "([^"]*)" do centro "([^"]*)" e dept "([^"]*)"$/) {
+    String lablae, String lablamai, String centro, String depta ->
+    to CreateLaboratorioPage
+        at CreateLaboratorioPage
+        page.createLab(lablae, centro, depta)
+        page.createLab(lablamai, centro, depta)
+        at ShowLaboratorioPage
+}
+
+And(~/^eu associei o laboratório "([^"]*)" a "([^"]*)"$/) { String lab, String fac ->
 
 }
+
 And(~/^o laboratório "([^"]*)" está disponível para associação$/) { String arg1 ->
 
 }
