@@ -13,18 +13,5 @@ class Usuario {
         nome nullable: false, blank: false
         senha nullable: false, blank: false
     }
-    Usuario(String nome, String email, String senha)
-    {
-        this.nome = nome
-        this.email = email
-        this.senha = senha
-        this.associado = false
-    }
-
-    Usuario(String nome)
-    {
-        this.nome = nome
-        this.associado = false
-    }
 
 }

@@ -8,8 +8,6 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class LaboratorioController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
     /**
      * método solicitar --> realiza uma solicitacao de acesso a laboratorio
      * @param fac
@@ -32,7 +30,9 @@ class LaboratorioController {
      * facilitador que teve solicitacao aprovada
      */
     def setFacilitador(Usuario adm, Laboratorio lab, Usuario fac)
-    {}
+    {
+        lab.setResponsavel(fac)
+    }
 
 
     def index(Integer max) {
@@ -62,7 +62,12 @@ class LaboratorioController {
         }
 
         laboratorioInstance.save flush:true
-
+        //forçando o biding
+        /*
+        def lab = laboratorioInstance
+        lab.residuos.add(laboratorioInstance)
+        lab.save(flush: true)
+        */
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'laboratorio.label', default: 'Laboratorio'), laboratorioInstance.id])
