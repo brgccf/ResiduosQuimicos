@@ -32,8 +32,7 @@ class CreateLaboratorioPage extends Page {
 
     boolean existeMensagemDeErroUsuarioAdministrador(String admin)
     {
-        $("div", class: "message", role: "status").has("ERRO: não é possível associar laboratório a usuários administradores.\""
-                + "Tentativa com usuário administrador: \"" + admin)
+        $("div", class: "message").text().contains(admin)
     }
 
 }

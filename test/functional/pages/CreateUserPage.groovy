@@ -14,9 +14,9 @@ class CreateUserPage extends Page {
 
     static at =  {
         InternationalizationHelper helper = InternationalizationHelper.instance
-        String labelUsuario = "Criar Usuario"
-        String CreateUsuarioList = helper.getMessage("default.create.label", labelUsuario)
-        title ==~ CreateUsuarioList
+        String labelUser = "Usuario"
+        String userCreatePage = helper.getMessage("default.create.label", labelUser)
+        title ==~ userCreatePage
     }
 
     def criarUsuario(nome, UsuarioList tipo) {

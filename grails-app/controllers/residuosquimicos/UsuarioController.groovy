@@ -11,7 +11,7 @@ class UsuarioController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Usuario.list(params), model:[usuarioInstanceCount: Usuario.count()]
+        respond Usuario.list(params), model: [usuarioInstanceCount: Usuario.count()]
     }
 
     def show(Usuario usuarioInstance) {
@@ -20,6 +20,17 @@ class UsuarioController {
 
     def create() {
         respond new Usuario(params)
+    }
+
+    def overview()
+    {}
+
+    def solicitarLab(Laboratorio laboratorioInstance, Usuario usuarioInstance)
+    {
+        laboratorioInstance.solicitante = usuarioInstance
+        flash.message = "Laboratório " + laboratorioInstance.nomeLaboratorio + " solicitado por " + usuarioInstance.nome +
+                " com sucesso."
+        redirect(action: "overview")
     }
 
     @Transactional
