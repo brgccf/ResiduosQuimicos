@@ -1,5 +1,6 @@
 package pages
 
+import cucumber.api.PendingException
 import geb.Page
 import steps.InternationalizationHelper
 import residuosquimicos.LaboratorioList
@@ -33,3 +34,4 @@ class ResumoSistemaPage extends Page{
         return test != null
     }
 }
+

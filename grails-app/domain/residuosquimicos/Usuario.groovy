@@ -5,7 +5,7 @@ class Usuario {
     String senha
 
     UsuarioList tipo
-    boolean associado
+    boolean associado //proximo passo: alterar para BelongsTo (associado)
     String ramal //ramal para contato com o usuario
     String email //email de acesso ao sistema
 

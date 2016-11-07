@@ -46,9 +46,9 @@
 						<td><g:link action="show" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</g:link></td>
 					
 						<td>${fieldValue(bean: laboratorioInstance, field: "responsavel")}</td>
-					
+
 						<td>${fieldValue(bean: laboratorioInstance, field: "solicitante")}</td>
-					
+
 					</tr>
 				</g:each>
 				</tbody>

@@ -12,8 +12,4 @@ class ShowLaboratorioPage extends Page{
         title ==~ showLabTitleList
     }
 
-    def associaFacilitador(String nome)
-    {
-
-    }
 }

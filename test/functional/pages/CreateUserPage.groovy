@@ -1,5 +1,7 @@
 package pages
 
+import cucumber.api.PendingException
+
 /**
  * Created by brgccf on 11/6/2016.
  */
@@ -19,11 +21,12 @@ class CreateUserPage extends Page {
 
     def criarUsuario(nome, UsuarioList tipo) {
         $('input#nome').value(nome)
-        $('input#senha').value("senhaFac")
+        $('input#senha').value("senha")
         $('input#associado').value(false)
-        $('input#email').value("emailfac@ufpe.br")
+        $('input#email').value("email@ufpe.br")
         $('input#ramal').value("1234")
         $('select#tipo').value(tipo)
         $("input", name: "create").click()
     }
 }
+

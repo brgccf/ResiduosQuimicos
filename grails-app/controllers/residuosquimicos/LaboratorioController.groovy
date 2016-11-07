@@ -60,6 +60,17 @@ class LaboratorioController {
             respond laboratorioInstance.errors, view:'create'
             return
         }
+        //verificando validade de usuario
+        if(laboratorioInstance.responsavel != null)
+        {
+            if (laboratorioInstance.responsavel.tipo == UsuarioList.ADMIN || laboratorioInstance.solicitante.tipo == UsuarioList.ADMIN)
+            {
+                flash.message = "ERRO: não é possível associar laboratório a usuários administradores. " +
+                        "Tentativa com usuário administrador: " + laboratorioInstance.responsavel.nome
+                redirect(action: "create")
+                return
+            }
+        }
 
         laboratorioInstance.save flush:true
         //forçando o biding

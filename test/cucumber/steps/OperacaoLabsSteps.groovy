@@ -127,44 +127,44 @@ def createLaboratorioAndCheck(String nomeLab, String nomeDep, String nomeCentro)
     page.createLab(nomeLab, nomeDep, nomeCentro)
     at ShowLaboratorioPage
 }
-
-Given(~/^eu criei o usuário Facilitador "([^"]*)"$/) { String nome ->
+def createLaboratorioAssociado(String nomeLab, String nomeDep, String nomeCentro, String nomeUsuario)
+{
+    to CreateLaboratorioPage
+    at CreateLaboratorioPage
+    page.createLabAssociado(nomeLab, nomeDep, nomeCentro, id)
+    at ShowLaboratorioPage
+}
+def createUsuario(String nome, UsuarioList tipo)
+{
     to CreateUserPage
     at CreateUserPage
-    page.criarUsuario(nome, UsuarioList.FAC)
+    page.criarUsuario(nome, tipo)
+    //ShowUserPage
+}
+boolean usuarioFacilitador = true
+Given(~/^eu criei o usuário do tipo administrador "([^"]*)"$/) { String adm ->
+    createUsuario(adm, UsuarioList.ADMIN)
 }
 
-And(~/^eu criei os laboratório "([^"]*)" e "([^"]*)" do centro "([^"]*)" e dept "([^"]*)"$/) {
-    String lablae, String lablamai, String centro, String depta ->
-    to CreateLaboratorioPage
-        at CreateLaboratorioPage
-        page.createLab(lablae, centro, depta)
-        page.createLab(lablamai, centro, depta)
-        at ShowLaboratorioPage
+When(~/^eu tento criar o laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" associado a "([^"]*)"$/) {
+    String lab, String centro, String dept, String adm ->
+    createLaboratorioAssociado(lab, dept, centro, adm)
+}
+Then(~/^eu posso ver uma mensagem de erro indicando que "([^"]*)" é um administrador$/) { String adm ->
+    assert page.existeMensagemDeErroUsuarioAdministrador(adm)
 }
 
-And(~/^eu associei o laboratório "([^"]*)" a "([^"]*)"$/) { String lab, String fac ->
-
+Given(~/^eu criei o usuário do tipo facilitador "([^"]*)"$/) { String fac ->
+    createUsuario(fac, UsuarioList.FAC)
 }
-
-And(~/^o laboratório "([^"]*)" está disponível para associação$/) { String arg1 ->
-
+And(~/^eu criei o laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" sem associações$/) {
+    String lab, String centro, String dept ->
+        createLaboratorioAndCheck(lab, dept, centro)
 }
-When(~/^eu tento solicitar associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
-
-}
-Then(~/^eu posso ver uma mensagem de erro indicando que "([^"]*)" já está associado laboratorio "([^"]*)"$/) { String arg1, String arg2 ->
+When(~/^eu solicito associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String fac, String lab ->
 
 }
 
-
-Given(~/^"([^"]*)" é um usuário do tipo facilitador sem associações a laboratórios$/) { String arg1 ->
-
-}
-When(~/^eu tento solicito associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String arg1, String arg2 ->
+Then(~/^eu posso ver uma mensagem de confirmação indicando a solicitação de "([^"]*)" para acessar o laboratório "([^"]*)"$/) { String arg1, String arg2 ->
 
 }
-Then(~/^eu posso ver uma mensagem de confirmação indicando a solicitação de "([^"]*)" para acessar o laboratório "([^"]*)"$/)
-        { String arg1, String arg2 ->
-
-        }

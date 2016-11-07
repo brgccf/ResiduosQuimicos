@@ -16,16 +16,13 @@ Feature: Operar com laboratorios disponíveis no sistema.
     Then "Roger" passa a ficar associado ao laboratório "LEA"
     And "Roger" não pode mais solicitar acesso a laboratórios
 #GUI
-  Scenario: Tentativa de solicitação de acesso a laboratório com usuário associado
-    Given eu criei o usuário Facilitador "Marcio"
-    And eu criei os laboratório "LEA" e "LEMAI" do centro "CB" e dept "DEPARTAMENTO_DE_ANTIBIOTICOS"
-    And eu associei o laboratório "LEA" a "Marcio"
-    And o laboratório "LAMAI" está disponível para associação
-    When eu tento solicitar associação de "Marcio" ao laboratório "LAMAI"
-    Then eu posso ver uma mensagem de erro indicando que "Marcio" já está associado laboratorio "LEA"
+  Scenario: Tentativa de associação de usuário Administrador a laboratório
+    Given eu criei o usuário do tipo administrador "Maria"
+    When eu tento criar o laboratório "LAMAI" do centro "CB" e dept "DEPARTAMENTO_DE_ANTIBIOTICOS" associado a "Maria"
+    Then eu posso ver uma mensagem de erro indicando que "Maria" é um administrador
 
   Scenario: Confirmação de solicitação de acesso a laboratório para usuário Facilitador
-    Given "Marcos" é um usuário do tipo facilitador sem associações a laboratórios
-    And o laboratório "LAMAI" está disponível para associação
-    When eu tento solicito associação de "Marcos" ao laboratório "LAMAI"
+    Given eu criei o usuário do tipo facilitador "Marcos"
+    And eu criei o laboratório "LAMAI" do centro "CB" e dept "DEPARTAMENTO_DE_ANTIBIOTICOS" sem associações
+    When eu solicito associação de "Marcos" ao laboratório "LAMAI"
     Then eu posso ver uma mensagem de confirmação indicando a solicitação de "Marcos" para acessar o laboratório "LAMAI"
