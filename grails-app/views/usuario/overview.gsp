@@ -1,3 +1,4 @@
+//#if SolicitacaoDeAcesso
 <%@ page import="residuosquimicos.Usuario" %>
 <%@ page import="residuosquimicos.Laboratorio" %>
 <!DOCTYPE html>
@@ -50,3 +51,4 @@
 		</div>
 	</body>
 </html>
+//#end

@@ -1,5 +1,8 @@
 package residuosquimicos
-
+/**
+ * Classe Usuario: entidade para diferenciar os tipos de usuários e permitir
+ * flexibilidade de acesso ao sistema.
+ */
 class Usuario {
     String nome
     String senha

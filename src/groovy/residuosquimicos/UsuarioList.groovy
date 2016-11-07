@@ -1,5 +1,5 @@
 package residuosquimicos
-
+//#if SolicitacaoDeAcesso
 public enum UsuarioList {
     FAC("Facilitador"),
     ADMIN("Administrador")
@@ -13,3 +13,4 @@ public enum UsuarioList {
     String getKey() { name() }
 
 }
+//#end

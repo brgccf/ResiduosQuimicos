@@ -21,10 +21,22 @@ class UsuarioController {
     def create() {
         respond new Usuario(params)
     }
-
+    //#if SolicitacaoDeAcesso
+    /**
+     * método auxiliar para funcionamento da view Overview de Usuario
+     * permite que o usuário solicite um laboratório clicando em algum que estiver disponível
+     */
     def overview()
     {}
-
+    /**
+     * Metodo solicitarLab utilizado para testes de GUI
+     * Uma vez presente na Page Overview, o usuário pode solicitar acesso a um laboratório
+     * @param laboratorioInstance
+     * Laboratorio disponível
+     * @param usuarioInstance
+     * Usuario facilitador que deve realizar solicitação
+     *
+     */
     def solicitarLab(Laboratorio laboratorioInstance, Usuario usuarioInstance)
     {
         laboratorioInstance.solicitante = usuarioInstance
@@ -32,7 +44,7 @@ class UsuarioController {
                 " com sucesso."
         redirect(action: "overview")
     }
-
+    //#end
     @Transactional
     def save(Usuario usuarioInstance) {
         if (usuarioInstance == null) {

@@ -36,7 +36,11 @@ class Laboratorio {
         responsavel blank: true, nullable: true
     }
 
-
+    /**
+     * metodo estaSolicitado()
+     * @return
+     * um boolean informando se o laboratório está solicitado ou não
+     */
     def boolean estaSolicitado()
     {
         return this.solicitante
