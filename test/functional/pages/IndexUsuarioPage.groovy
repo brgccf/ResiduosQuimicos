@@ -12,7 +12,7 @@ class IndexUsuarioPage extends Page{
         title ==~ indexUsuario
     }
 
-    def procuraUsuario(String nome)
+    def procuraNomeUsuario(String nome)
     {
         $("a", text: nome).click()
     }

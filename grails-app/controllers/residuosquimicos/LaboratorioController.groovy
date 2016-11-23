@@ -64,7 +64,7 @@ class LaboratorioController {
         //verificando validade de usuario
         if(laboratorioInstance.responsavel != null)
         {
-            if (laboratorioInstance.responsavel.tipo == UsuarioList.ADMIN || laboratorioInstance.solicitante.tipo == UsuarioList.ADMIN)
+            if (laboratorioInstance.tipoUsuarioResponsavel() == TiposDeUsuario.ADMIN || laboratorioInstance.tipoUsuarioSolicitante() == TiposDeUsuario.ADMIN)
             {
                 flash.message = "ERRO: não é possível associar laboratório a usuários administradores. " +
                         "Tentativa com usuário administrador: " + laboratorioInstance.responsavel.nome

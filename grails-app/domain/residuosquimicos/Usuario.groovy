@@ -7,7 +7,7 @@ class Usuario {
     String nome
     String senha
 
-    UsuarioList tipo
+    TiposDeUsuario tipo
     boolean associado //proximo passo: alterar para BelongsTo (associado)
     String ramal //ramal para contato com o usuario
     String email //email de acesso ao sistema
@@ -15,6 +15,16 @@ class Usuario {
     static constraints = {
         nome nullable: false, blank: false
         senha nullable: false, blank: false
+    }
+
+    def isFacilitador()
+    {
+        return (this.tipo == TiposDeUsuario.FAC)
+    }
+
+    def isAdmin()
+    {
+        return this.tipo == TiposDeUsuario.ADMIN
     }
 
 }

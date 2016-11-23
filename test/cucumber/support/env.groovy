@@ -19,9 +19,10 @@ Before() {
 
 After() {
     scenarioInterceptor.destroy()
-    //Usuario.all.each {
-    //    it.delete()
-    //}
+    Laboratorio.all.each {
+        it.responsavel = null
+        it.solicitante = null
+    }
     bindingUpdater.remove()
     Residuo.executeUpdate('delete from Residuo')
     Laboratorio.executeUpdate('delete from Laboratorio')

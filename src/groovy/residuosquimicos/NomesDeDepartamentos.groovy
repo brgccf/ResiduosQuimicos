@@ -1,6 +1,6 @@
 package residuosquimicos
 
-public enum DepartamentoList {
+public enum NomesDeDepartamentos {
     //Departamentos CB
     DEPARTAMENTO_DE_ANTIBIOTICOS("Departamento de Antibióticos"),
     DEPARTAMENTO_DE_ANATOMIA("Departamento de Anatomia Humana"),
@@ -54,7 +54,7 @@ public enum DepartamentoList {
 
     public String value
 
-    DepartamentoList(String value){
+    NomesDeDepartamentos(String value){
         this.value = value
     }
 

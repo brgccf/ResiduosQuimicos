@@ -1,8 +1,6 @@
 package pages
 
-import cucumber.api.PendingException
 import geb.Page
-import residuosquimicos.UsuarioList
 import steps.InternationalizationHelper
 import residuosquimicos.Usuario
 class CreateLaboratorioPage extends Page {

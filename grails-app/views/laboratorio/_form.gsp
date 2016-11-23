@@ -1,11 +1,11 @@
-<%@ page import="residuosquimicos.Laboratorio" %>
+<%@ page import="residuosquimicos.NomesDeDepartamentos; residuosquimicos.NomesDeCentros; residuosquimicos.Laboratorio" %>
 
 <div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'nomeCentro', 'error')} required">
 	<label for="nomeCentro">
 		<g:message code="laboratorio.nomeCentro.label" default="Nome Centro" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="nomeCentro" from="${residuosquimicos.CentroList?.values()}" keys="${residuosquimicos.CentroList.values()*.name()}" required="" value="${laboratorioInstance?.nomeCentro?.name()}" />
+	<g:select name="nomeCentro" from="${residuosquimicos.NomesDeCentros?.values()}" keys="${residuosquimicos.NomesDeCentros.values()*.name()}" required="" value="${laboratorioInstance?.nomeCentro?.name()}" />
 
 </div>
 
@@ -14,7 +14,7 @@
 		<g:message code="laboratorio.nomeDepartamento.label" default="Nome Departamento" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="nomeDepartamento" from="${residuosquimicos.DepartamentoList?.values()}" keys="${residuosquimicos.DepartamentoList.values()*.name()}" required="" value="${laboratorioInstance?.nomeDepartamento?.name()}" />
+	<g:select name="nomeDepartamento" from="${residuosquimicos.NomesDeDepartamentos?.values()}" keys="${residuosquimicos.NomesDeDepartamentos.values()*.name()}" required="" value="${laboratorioInstance?.nomeDepartamento?.name()}" />
 
 </div>
 
@@ -23,7 +23,7 @@
 		<g:message code="laboratorio.nomeLaboratorio.label" default="Nome Laboratorio" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="nomeLaboratorio" from="${residuosquimicos.LaboratorioList?.values()}" keys="${residuosquimicos.LaboratorioList.values()*.name()}" required="" value="${laboratorioInstance?.nomeLaboratorio?.name()}" />
+	<g:select name="nomeLaboratorio" from="${residuosquimicos.FileHelper?.retrieveLaboratorios()}" required="" value="${laboratorioInstance?.nomeLaboratorio}" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: laboratorioInstance, field: 'residuos', 'error')} ">

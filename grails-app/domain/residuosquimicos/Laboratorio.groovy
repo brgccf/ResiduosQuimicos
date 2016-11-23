@@ -8,15 +8,15 @@ class Laboratorio {
     /**
      * Nome do centro ao qual pertence
      */
-    CentroList nomeCentro
+    NomesDeCentros nomeCentro
     /**
      * Nome do departamento ao qual pertence
      */
-    DepartamentoList nomeDepartamento
+    NomesDeDepartamentos nomeDepartamento
     /**
      * Nome do laboratorio ao qual pertence
      */
-    LaboratorioList nomeLaboratorio
+    String nomeLaboratorio
     /**
      * Usuario que solicitou acesso ao sistema
      */
@@ -44,6 +44,42 @@ class Laboratorio {
     def boolean estaSolicitado()
     {
         return this.solicitante
+    }
+    /**
+     * metodo tipoUsuarioSolicitante
+     * informa o tipo do usuario solicitando o lab
+     * @return tipo usuario solicitante
+     */
+    def tipoUsuarioSolicitante()
+    {
+        return this.solicitante.tipo
+    }
+    /**
+     * metodo tipoUsuarioResponsavel
+     * informa o tipo do usuario responsavel pelo lab
+     * @return tipo usuario responsavel
+     */
+    def tipoUsuarioResponsavel()
+    {
+        return this.responsavel.tipo
+    }
+    /**
+     * metodo getNomeSolicitante
+     * informa o nome do usuario solicitante
+     * @return nome do usuario solicitante
+     */
+    def getNomeSolicitante()
+    {
+        return this.solicitante.nome
+    }
+    /**
+     * metodo getNomeResponsavel
+     * informa o nome do usuario responsavel pelo lab
+     * @return nome do usuario responsavel.
+     */
+    def getNomeResponsavel()
+    {
+        return this.responsavel.nome
     }
 
 }

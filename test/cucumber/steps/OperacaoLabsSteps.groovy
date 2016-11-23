@@ -7,7 +7,7 @@ import residuosquimicos.Laboratorio
 import residuosquimicos.LaboratorioController
 import residuosquimicos.Usuario
 import residuosquimicos.UsuarioController
-import residuosquimicos.UsuarioList
+import residuosquimicos.TiposDeUsuario
 import pages.CreateLaboratorioPage
 import pages.IndexLaboratorioPage
 import pages.ShowLaboratorioPage
@@ -24,7 +24,7 @@ Given(~/^"([^"]*)" não possui associação a nenhum laboratório cadastrado$/) 
     UsuarioController controlador = new UsuarioController()
     criarUsuarioFacilitador(fac, controlador)
     Usuario facilitador = Usuario.findByNome(fac)
-    assert facilitador.tipo == UsuarioList.FAC
+    assert facilitador.isFacilitador()
     assert !(facilitador.getAssociado())
 }
 
@@ -41,7 +41,7 @@ And(~/^os laboratórios "([^"]*)" e "([^"]*)" do centro "([^"]*)" e dept "([^"]*
 When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
     def controlador = new LaboratorioController()
     Usuario facilitador = Usuario.findByNome(fac)
-    assert facilitador.tipo == UsuarioList.FAC
+    assert facilitador.isFacilitador()
     Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
     controlador.solicitarAssociacao(facilitador, A)
 }
@@ -49,10 +49,10 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
     Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
     assert (A.estaSolicitado())
     //necessario para evitar inconsistencia apos fim de execuçao de cenário
-    Laboratorio.all.each {
-        it.responsavel = null
-        it.solicitante = null
-    }
+    //Laboratorio.all.each {
+    //    it.responsavel = null
+    //    it.solicitante = null
+    //}
 }
 
 
@@ -60,8 +60,8 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
 
 static def criarUsuarioFacilitador(String nome, UsuarioController controlador)
 {
-    Usuario userFac = new Usuario([nome:nome, senha:"senhafac", tipo: UsuarioList.FAC, associado: false, ramal: "1234",
-    email: "email@ufpe.br"])
+    Usuario userFac = new Usuario([nome :nome, senha:"senhafac", tipo: TiposDeUsuario.FAC, associado: false, ramal: "1234",
+                                   email: "email@ufpe.br"])
     controlador.save(userFac)
     controlador.response.reset()
 
@@ -69,8 +69,8 @@ static def criarUsuarioFacilitador(String nome, UsuarioController controlador)
 
 static def criarUsuarioAdministrador(String nome, UsuarioController controlador)
 {
-    Usuario userAdm = new Usuario([nome:nome, senha: "senhaadm", tipo: UsuarioList.ADMIN, associado: false, ramal: "4321",
-    email: "emailadmin@ufpe.br"])
+    Usuario userAdm = new Usuario([nome :nome, senha: "senhaadm", tipo: TiposDeUsuario.ADMIN, associado: false, ramal: "4321",
+                                   email: "emailadmin@ufpe.br"])
     controlador.save(userAdm)
     controlador.response.reset()
 }
@@ -80,15 +80,16 @@ def criarLaboratorio(String nomeLab, String nomeDep, String nomeCentro){
                                responsavel:null])
     def controlador = new LaboratorioController()
     controlador.save(lab)
-
     controlador.response.reset()
 }
+
+
 
 Given(~/^"([^"]*)" é um usuário do tipo administrador do sistema$/) { String user ->
     UsuarioController controlador = new UsuarioController()
     criarUsuarioAdministrador(user, controlador)
     Usuario adm = Usuario.findByNome(user)
-    assert adm.tipo == UsuarioList.ADMIN
+    assert adm.tipo == TiposDeUsuario.ADMIN
 
 }
 And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" feita pelo usuário Facilitador "([^"]*)"$/)
@@ -97,12 +98,12 @@ And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" do centro "(
             LaboratorioController labController = new LaboratorioController()
             criarUsuarioFacilitador(fac, controlador)
             Usuario facilitador = Usuario.findByNome(fac)
-            assert facilitador.tipo == UsuarioList.FAC
+            assert facilitador.isFacilitador()
             criarLaboratorio(lea, depta, centro)
             Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lea)
             labController.solicitarAssociacao(facilitador, labSolicitado)
             assert labSolicitado.estaSolicitado()
-            assert labSolicitado.solicitante.nome == facilitador.nome
+            assert labSolicitado.getNomeSolicitante() == facilitador.nome
 }
 
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
@@ -110,9 +111,9 @@ When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "
             def controlador = new LaboratorioController()
             Laboratorio labConcedido = Laboratorio.findByNomeLaboratorio(lab)
             Usuario admin = Usuario.findByNome(adm)
-            assert admin.tipo == UsuarioList.ADMIN
+            assert admin.isAdmin()
             Usuario facilitador = Usuario.findByNome(fac)
-            assert facilitador.tipo == UsuarioList.FAC
+            assert facilitador.isFacilitador()
             controlador.setFacilitador(admin, labConcedido, facilitador)
 
         }
@@ -120,7 +121,7 @@ Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         { String fac, String lab ->
             Laboratorio labAssociado = Laboratorio.findByNomeLaboratorio(lab)
             Usuario facilitador = Usuario.findByNome(fac)
-            assert labAssociado.responsavel.nome == facilitador.nome
+            assert labAssociado.getNomeResponsavel() == facilitador.nome
         }
 
 And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac ->
@@ -150,7 +151,7 @@ def createLaboratorioAssociado(String nomeLab, String nomeDep, String nomeCentro
     at CreateLaboratorioPage
     page.createLabAssociado(nomeLab, nomeDep, nomeCentro, nomeUsuario)
 }
-def createUsuario(String nome, UsuarioList tipo)
+def createUsuario(String nome, TiposDeUsuario tipo)
 {
     to CreateUserPage
     at CreateUserPage
@@ -158,7 +159,7 @@ def createUsuario(String nome, UsuarioList tipo)
 }
 
 Given(~/^eu criei o usuário do tipo administrador "([^"]*)"$/) { String adm ->
-    createUsuario(adm, UsuarioList.ADMIN)
+    createUsuario(adm, TiposDeUsuario.ADMIN)
 }
 
 When(~/^eu tento criar o laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" associado a "([^"]*)"$/) {
@@ -170,16 +171,16 @@ Then(~/^eu posso ver uma mensagem de erro indicando que "([^"]*)" é um administ
 }
 
 Given(~/^eu criei o usuário do tipo facilitador "([^"]*)"$/) { String fac ->
-    createUsuario(fac, UsuarioList.FAC)
+    createUsuario(fac, TiposDeUsuario.FAC)
 }
 And(~/^eu criei o laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" sem associações$/) {
     String lab, String centro, String dept ->
         createLaboratorioAndCheck(lab, dept, centro)
 }
-When(~/^eu solicito associação de "([^"]*)" ao laboratório "([^"]*)"$/) { String fac, String lab ->
+When(~/^eu tento associar de "([^"]*)" ao laboratório "([^"]*)"$/) { String fac, String lab ->
     to IndexUsuarioPage
     at IndexUsuarioPage
-    page.procuraUsuario(fac)
+    page.procuraNomeUsuario(fac)
     at ShowUserPage
     page.solicitarButtonClick()
     at OverviewUsuarioPage
