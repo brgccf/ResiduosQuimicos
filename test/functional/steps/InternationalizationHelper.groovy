@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import grails.util.Holders
 import org.springframework.context.i18n.LocaleContextHolder
 

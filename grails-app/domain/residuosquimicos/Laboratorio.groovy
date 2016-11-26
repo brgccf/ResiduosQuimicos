@@ -36,6 +36,10 @@ class Laboratorio {
         responsavel blank: true, nullable: true
     }
 
+    Laboratorio() {
+        residuos = []
+    }
+
     /**
      * metodo estaSolicitado()
      * @return

@@ -14,7 +14,7 @@ class ShowUserPage extends Page{
 
     def solicitarButtonClick()
     {
-        $("a", class: "btn").click()
+        $("a", class: "btn", value: "Next").click()
     }
 
 }

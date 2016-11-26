@@ -47,16 +47,23 @@ When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { S
 }
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
     Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
-    assert (A.estaSolicitado())
-    //necessario para evitar inconsistencia apos fim de execuçao de cenário
-    //Laboratorio.all.each {
-    //    it.responsavel = null
-    //    it.solicitante = null
-    //}
+    assert !tentarSolicitacaoLab(A)
+    Laboratorio.all.each {
+        it.responsavel = null
+        it.solicitante = null
+    }
 }
 
-
 //testar parametros
+
+static def tentarSolicitacaoLab(Laboratorio lab)
+{
+    LaboratorioController controlador = new LaboratorioController()
+    Usuario aleatorio = new Usuario([nome: "aleatorio", senha: "senhaale", tipo: TiposDeUsuario.FAC,
+    associado: false, ramal: "1111", email: "aleatorio@ufpe.br"])
+    boolean result = controlador.solicitarAssociacao(aleatorio, lab)
+    return result
+}
 
 static def criarUsuarioFacilitador(String nome, UsuarioController controlador)
 {
@@ -125,16 +132,15 @@ Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         }
 
 And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac ->
-    Usuario facilitador = Usuario.findByNome(fac)
-    assert !(facilitador.associado)
-    facilitador.setAssociado(true)
-    apagarDados()
+
 }
 
 static def apagarDados()
 {
     Usuario.deleteAll(Usuario.all)
-    Laboratorio.deleteAll(Laboratorio.all)
+    Laboratorio.all.each {
+        it.delete()
+    }
 }
 //GUI SCENARIOS
 //testar parametros
@@ -177,7 +183,8 @@ And(~/^eu criei o laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" se
     String lab, String centro, String dept ->
         createLaboratorioAndCheck(lab, dept, centro)
 }
-When(~/^eu tento associar de "([^"]*)" ao laboratório "([^"]*)"$/) { String fac, String lab ->
+
+When(~/^eu tento associar "([^"]*)" ao laboratório "([^"]*)"$/) { String fac, String lab ->
     to IndexUsuarioPage
     at IndexUsuarioPage
     page.procuraNomeUsuario(fac)

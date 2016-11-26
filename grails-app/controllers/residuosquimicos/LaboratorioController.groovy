@@ -17,7 +17,11 @@ class LaboratorioController {
      */
     def solicitarAssociacao(Usuario fac, Laboratorio lab)
     {
-        lab.setSolicitante(fac) //seta o responsavel pela solicitacao
+        if(!lab.estaSolicitado())
+        {
+            lab.setSolicitante(fac)
+        }
+        else return false
     }
 
     /**
@@ -32,6 +36,7 @@ class LaboratorioController {
     def setFacilitador(Usuario adm, Laboratorio lab, Usuario fac)
     {
         lab.setResponsavel(fac)
+        fac.setAssociado(true)
     }
 
     //#end
@@ -64,7 +69,8 @@ class LaboratorioController {
         //verificando validade de usuario
         if(laboratorioInstance.responsavel != null)
         {
-            if (laboratorioInstance.tipoUsuarioResponsavel() == TiposDeUsuario.ADMIN || laboratorioInstance.tipoUsuarioSolicitante() == TiposDeUsuario.ADMIN)
+            if (laboratorioInstance.tipoUsuarioResponsavel() == TiposDeUsuario.ADMIN ||
+                    laboratorioInstance.tipoUsuarioSolicitante() == TiposDeUsuario.ADMIN)
             {
                 flash.message = "ERRO: não é possível associar laboratório a usuários administradores. " +
                         "Tentativa com usuário administrador: " + laboratorioInstance.responsavel.nome

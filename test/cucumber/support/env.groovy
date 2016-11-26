@@ -23,11 +23,7 @@ After() {
         it.responsavel = null
         it.solicitante = null
     }
+    Laboratorio.deleteAll(Laboratorio.all)
+    Usuario.deleteAll(Usuario.all)
     bindingUpdater.remove()
-    Residuo.executeUpdate('delete from Residuo')
-    Laboratorio.executeUpdate('delete from Laboratorio')
-
-    Usuario.all.each {
-        it.delete()
-    }
 }

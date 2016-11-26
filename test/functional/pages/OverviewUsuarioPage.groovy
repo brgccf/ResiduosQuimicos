@@ -7,17 +7,34 @@ class OverviewUsuarioPage extends Page{
     static url = "/ResiduosQuimicos/usuario/overview/"
     static at = {
         InternationalizationHelper helper = InternationalizationHelper.instance
-        String labelOverview = "List"
-        String overviewUsuario = helper.getMessage("default.list.label", labelOverview)
+        String overviewUsuario = helper.getMessage("default.title.page.overviewUsuario")
         title ==~ overviewUsuario
     }
 
-    def selecionaLab(String lab)
-    {
-        $("td", class: "referencia").each {
-            if(it.find('a').text().contains(lab))
-                it.find('a').click()
+    def selecionaLab(String lab){
+        $("a").each {
+            if (it.text().equalsIgnoreCase(lab))
+            {
+                it.click()
+            }
+
         }
+    /*
+        $("tr", class: "even").each {
+             if (it.find('a').text().contains(lab))
+             {
+                    it.find('a').click()
+                    return
+            }
+
+        }
+        $("tr", class: "odd").each {
+            $("td", class: "referencia").each {
+                if (it.find('a').text().contains(lab))
+                    it.find('a').click()
+            }
+        }
+        */
     }
 
     boolean existeMensagemDeConfirmacao(String str)

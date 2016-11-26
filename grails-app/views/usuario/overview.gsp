@@ -5,8 +5,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'list.label', default: 'List')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<title><g:message code="default.title.page.overviewUsuario" /></title>
 	</head>
 	<body>
 	<a href="#list-laboratorio" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -33,14 +32,14 @@
 				</thead>
 				<tbody>
 				<g:each in="${Laboratorio.list()}" status="i" var="laboratorioInstance">
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+						<td>${fieldValue(bean: laboratorioInstance, field: "nomeCentro")}</td>
 
-					<td>${fieldValue(bean: laboratorioInstance, field: "nomeCentro")}</td>
+						<td>${fieldValue(bean: laboratorioInstance, field: "nomeDepartamento")}</td>
 
-					<td>${fieldValue(bean: laboratorioInstance, field: "nomeDepartamento")}</td>
+						<td class="referencia"><g:link action="solicitarLab" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</g:link></td>
 
-					<td class="referencia"><g:link action="solicitarLab" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</g:link></td>
-
-
+					</tr>
 				</g:each>
 				</tbody>
 			</table>
