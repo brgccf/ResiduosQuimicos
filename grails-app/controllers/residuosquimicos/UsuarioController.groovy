@@ -29,20 +29,24 @@ class UsuarioController {
     def overview()
     {}
     /**
-     * Metodo solicitarLab utilizado para testes de GUI
+     * Metodo solicitarLab
      * Uma vez presente na Page Overview, o usuário pode solicitar acesso a um laboratório
      * @param laboratorioInstance
      * Laboratorio disponível
      * @param usuarioInstance
      * Usuario facilitador que deve realizar solicitação
-     *
      */
-    def solicitarLab(Laboratorio laboratorioInstance, Usuario usuarioInstance)
+    def solicitarAssociacao(Laboratorio lab, Usuario fac)
     {
-        laboratorioInstance.solicitante = usuarioInstance
-        flash.message = "Laboratório " + laboratorioInstance.nomeLaboratorio + " solicitado por " + usuarioInstance.nome +
-                " com sucesso."
-        redirect(action: "overview")
+        if(!lab.estaSolicitado() && !fac.associado) //se lab nao esta solicitado e usuario nao esta associado
+        {
+            lab.setSolicitante(fac)
+            flash.message = "Laboratório " + lab.nomeLaboratorio + " solicitado por " + fac.nome +
+                    " com sucesso."
+            redirect(action: "overview")
+        }
+        else return false
+
     }
     //#end
     @Transactional

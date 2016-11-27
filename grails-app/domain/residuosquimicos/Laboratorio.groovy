@@ -68,22 +68,20 @@ class Laboratorio {
         return this.responsavel.tipo
     }
     /**
-     * metodo getNomeSolicitante
-     * informa o nome do usuario solicitante
-     * @return nome do usuario solicitante
+     * metodo equalsSolicitante
+     * verifica se o usuario solicitante é o que foi recebido como parametro
      */
-    def getNomeSolicitante()
+    def equalsSolicitante(Usuario fac)
     {
-        return this.solicitante.nome
+        return fac == this.solicitante
     }
     /**
-     * metodo getNomeResponsavel
-     * informa o nome do usuario responsavel pelo lab
-     * @return nome do usuario responsavel.
+     * metodo equalsResponsavel
+     * verifica se o usuario responsavel é aquele passado como parametro
      */
-    def getNomeResponsavel()
+    def equalsResponsavel(Usuario fac)
     {
-        return this.responsavel.nome
+        return fac == this.responsavel
     }
 
 }

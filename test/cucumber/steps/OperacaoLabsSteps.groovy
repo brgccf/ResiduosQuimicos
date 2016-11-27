@@ -39,11 +39,11 @@ And(~/^os laboratórios "([^"]*)" e "([^"]*)" do centro "([^"]*)" e dept "([^"]*
 }
 
 When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { String fac, String labA ->
-    def controlador = new LaboratorioController()
+    def controlador = new UsuarioController()
     Usuario facilitador = Usuario.findByNome(fac)
     assert facilitador.isFacilitador()
     Laboratorio A = Laboratorio.findByNomeLaboratorio(labA)
-    controlador.solicitarAssociacao(facilitador, A)
+    controlador.solicitarAssociacao(A, facilitador)
 }
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
     Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
@@ -54,11 +54,10 @@ Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { Stri
 
 static def tentarSolicitacaoLab(Laboratorio lab)
 {
-    LaboratorioController controlador = new LaboratorioController()
+    def controlador = new UsuarioController()
     Usuario aleatorio = new Usuario([nome: "aleatorio", senha: "senhaale", tipo: TiposDeUsuario.FAC,
-    associado: false, ramal: "1111", email: "aleatorio@ufpe.br"])
-    boolean result = controlador.solicitarAssociacao(aleatorio, lab)
-    return result
+                                     associado: false, ramal: "1111", email: "aleatorio@ufpe.br"])
+    return controlador.solicitarAssociacao(lab, aleatorio)
 }
 
 static def criarUsuarioFacilitador(String nome, UsuarioController controlador)
@@ -92,22 +91,21 @@ Given(~/^"([^"]*)" é um usuário do tipo administrador do sistema$/) { String u
     UsuarioController controlador = new UsuarioController()
     criarUsuarioAdministrador(user, controlador)
     Usuario adm = Usuario.findByNome(user)
-    assert adm.tipo == TiposDeUsuario.ADMIN
+    assert adm.isAdmin()
 
 }
 And(~/^Existe uma solicitação de acesso ao laboratório "([^"]*)" do centro "([^"]*)" e dept "([^"]*)" feita pelo usuário Facilitador "([^"]*)"$/)
         { String lea, String centro, String depta, String fac ->
             UsuarioController controlador = new UsuarioController()
-            LaboratorioController labController = new LaboratorioController()
             criarUsuarioFacilitador(fac, controlador)
             Usuario facilitador = Usuario.findByNome(fac)
             assert facilitador.isFacilitador()
             criarLaboratorio(lea, depta, centro)
             Laboratorio labSolicitado = Laboratorio.findByNomeLaboratorio(lea)
-            labController.solicitarAssociacao(facilitador, labSolicitado)
+            controlador.solicitarAssociacao(labSolicitado, facilitador)
             assert labSolicitado.estaSolicitado()
-            assert labSolicitado.getNomeSolicitante() == facilitador.nome
-}
+            assert labSolicitado.equalsSolicitante(facilitador)
+        }
 
 When(~/^"([^"]*)" realiza a operação de concessão de acesso ao laboratório "([^"]*)" para "([^"]*)"$/)
         { String adm, String lab, String fac ->
@@ -124,7 +122,7 @@ Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         { String fac, String lab ->
             Laboratorio labAssociado = Laboratorio.findByNomeLaboratorio(lab)
             Usuario facilitador = Usuario.findByNome(fac)
-            assert labAssociado.getNomeResponsavel() == facilitador.nome
+            assert labAssociado.equalsResponsavel(facilitador)
         }
 
 And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac ->
@@ -137,11 +135,11 @@ static def tentarSolicitarAcesso(Usuario fac)
     def centro = "Centro de Tecnologia e Geociências"
     def dept = "Departamento de Geologia"
     def lab = "teste"
-    LaboratorioController controlador = new LaboratorioController()
+    def controlador = new UsuarioController()
     Laboratorio aleatorio = new Laboratorio([nomeCentro:centro, nomeDepartamento:dept,
                                              nomeLaboratorio:lab, solicitante: null,
-                                                 responsavel:null])
-    return controlador.solicitarAssociacao(fac, aleatorio)
+                                             responsavel:null])
+    return controlador.solicitarAssociacao(aleatorio, fac)
 }
 
 //GUI SCENARIOS

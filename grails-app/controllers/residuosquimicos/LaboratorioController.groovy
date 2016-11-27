@@ -8,21 +8,6 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class LaboratorioController {
     //#if SolicitacaoDeAcesso
-    /**
-     * método solicitar --> realiza uma solicitacao de acesso a laboratorio
-     * @param fac
-     * facilitador que solicitou o acesso
-     * @param lab
-     * laboratorio para o qual o acesso foi solicitado
-     */
-    def solicitarAssociacao(Usuario fac, Laboratorio lab)
-    {
-        if(!lab.estaSolicitado() && !fac.associado) //se lab nao esta solicitado e usuario nao esta associado
-        {
-            lab.setSolicitante(fac)
-        }
-        else return false
-    }
 
     /**
      * método setFacilitador --> aprova uma solicitacao de acesso a laboratorio feita por um facilitador
