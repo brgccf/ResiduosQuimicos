@@ -48,10 +48,6 @@ When(~/^Eu solicito a associação de "([^"]*)" ao Laboratório "([^"]*)"$/) { S
 Then(~/^o laboratório "([^"]*)" não pode receber mais solicitações$/) { String lab ->
     Laboratorio A = Laboratorio.findByNomeLaboratorio(lab)
     assert !tentarSolicitacaoLab(A)
-    Laboratorio.all.each {
-        it.responsavel = null
-        it.solicitante = null
-    }
 }
 
 //testar parametros
@@ -132,16 +128,22 @@ Then(~/^"([^"]*)" passa a ficar associado ao laboratório "([^"]*)"$/)
         }
 
 And(~/^"([^"]*)" não pode mais solicitar acesso a laboratórios$/) { String fac ->
-
+    Usuario facilitador = Usuario.findByNome(fac)
+    assert !tentarSolicitarAcesso(facilitador)
 }
 
-static def apagarDados()
+static def tentarSolicitarAcesso(Usuario fac)
 {
-    Usuario.deleteAll(Usuario.all)
-    Laboratorio.all.each {
-        it.delete()
-    }
+    def centro = "Centro de Tecnologia e Geociências"
+    def dept = "Departamento de Geologia"
+    def lab = "teste"
+    LaboratorioController controlador = new LaboratorioController()
+    Laboratorio aleatorio = new Laboratorio([nomeCentro:centro, nomeDepartamento:dept,
+                                             nomeLaboratorio:lab, solicitante: null,
+                                                 responsavel:null])
+    return controlador.solicitarAssociacao(fac, aleatorio)
 }
+
 //GUI SCENARIOS
 //testar parametros
 

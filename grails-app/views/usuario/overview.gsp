@@ -37,7 +37,7 @@
 
 						<td>${fieldValue(bean: laboratorioInstance, field: "nomeDepartamento")}</td>
 
-						<td class="referencia"><g:link action="solicitarLab" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</g:link></td>
+						<td><g:link action="solicitarLab" class="btn" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "nomeLaboratorio")}</g:link></td>
 
 					</tr>
 				</g:each>

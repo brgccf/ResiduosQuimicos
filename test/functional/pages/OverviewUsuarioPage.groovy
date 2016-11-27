@@ -12,29 +12,10 @@ class OverviewUsuarioPage extends Page{
     }
 
     def selecionaLab(String lab){
-        $("a").each {
-            if (it.text().equalsIgnoreCase(lab))
-            {
-                it.click()
-            }
-
+        if($("a", class:"btn").text().contains(lab))
+        {
+            $("a", class: "btn").click()
         }
-    /*
-        $("tr", class: "even").each {
-             if (it.find('a').text().contains(lab))
-             {
-                    it.find('a').click()
-                    return
-            }
-
-        }
-        $("tr", class: "odd").each {
-            $("td", class: "referencia").each {
-                if (it.find('a').text().contains(lab))
-                    it.find('a').click()
-            }
-        }
-        */
     }
 
     boolean existeMensagemDeConfirmacao(String str)

@@ -17,7 +17,7 @@ class LaboratorioController {
      */
     def solicitarAssociacao(Usuario fac, Laboratorio lab)
     {
-        if(!lab.estaSolicitado())
+        if(!lab.estaSolicitado() && !fac.associado) //se lab nao esta solicitado e usuario nao esta associado
         {
             lab.setSolicitante(fac)
         }
@@ -35,8 +35,13 @@ class LaboratorioController {
      */
     def setFacilitador(Usuario adm, Laboratorio lab, Usuario fac)
     {
-        lab.setResponsavel(fac)
-        fac.setAssociado(true)
+        //aprovar caso facilitador esteja desvinculado a laboratorios:
+        if(!fac.associado)
+        {
+            lab.setResponsavel(fac)
+            fac.setAssociado(true)
+        }
+        else return false
     }
 
     //#end
