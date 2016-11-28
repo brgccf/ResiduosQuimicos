@@ -62,8 +62,11 @@ class LaboratorioController {
             if (laboratorioInstance.tipoUsuarioResponsavel() == TiposDeUsuario.ADMIN ||
                     laboratorioInstance.tipoUsuarioSolicitante() == TiposDeUsuario.ADMIN)
             {
+                flash.message = message(code: 'message.title.associacao.error', args: [laboratorioInstance.getNomeResponsavel()])
+                /*
                 flash.message = "ERRO: não é possível associar laboratório a usuários administradores. " +
                         "Tentativa com usuário administrador: " + laboratorioInstance.responsavel.nome
+                        */
                 redirect(action: "create")
                 return
             }

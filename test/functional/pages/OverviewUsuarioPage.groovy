@@ -1,8 +1,8 @@
 package pages
 
 import geb.Page
-import steps.InternationalizationHelper
-import residuosquimicos.Laboratorio
+import residuosquimicos.InternationalizationHelper
+
 class OverviewUsuarioPage extends Page{
     static url = "/ResiduosQuimicos/usuario/overview/"
     static at = {

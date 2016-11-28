@@ -1,4 +1,4 @@
-package steps
+package residuosquimicos
 
 import cucumber.api.PendingException
 import grails.util.Holders

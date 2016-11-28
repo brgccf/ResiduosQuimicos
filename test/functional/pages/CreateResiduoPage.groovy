@@ -2,7 +2,7 @@ package pages
 
 import geb.Page
 import residuosquimicos.Laboratorio
-import steps.InternationalizationHelper
+import residuosquimicos.InternationalizationHelper
 
 class CreateResiduoPage extends Page{
     static url = "/ResiduosQuimicos/residuo/create/"

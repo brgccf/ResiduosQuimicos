@@ -83,5 +83,13 @@ class Laboratorio {
     {
         return fac == this.responsavel
     }
+    /**
+     * metodo getNomeResponsavel
+     * @return nome do responsavel pelo lab
+     */
+    def getNomeResponsavel()
+    {
+        return this.responsavel.nome
+    }
 
 }

@@ -2,7 +2,7 @@ package pages
 
 import geb.Page
 import residuosquimicos.Laboratorio
-import steps.InternationalizationHelper
+import residuosquimicos.InternationalizationHelper
 
 class EstatisticasPage extends Page{
     static url = "/ResiduosQuimicos/status/estatisticas/"

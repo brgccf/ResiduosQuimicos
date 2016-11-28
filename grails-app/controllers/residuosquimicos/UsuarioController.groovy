@@ -35,14 +35,14 @@ class UsuarioController {
      * Laboratorio disponível
      * @param usuarioInstance
      * Usuario facilitador que deve realizar solicitação
+     *
      */
     def solicitarAssociacao(Laboratorio lab, Usuario fac)
     {
         if(!lab.estaSolicitado() && !fac.associado) //se lab nao esta solicitado e usuario nao esta associado
         {
             lab.setSolicitante(fac)
-            flash.message = "Laboratório " + lab.nomeLaboratorio + " solicitado por " + fac.nome +
-                    " com sucesso."
+            flash.message = message(code: 'message.title.associacao.confirm', args: [lab.nomeLaboratorio, fac.nome])
             redirect(action: "overview")
         }
         else return false
